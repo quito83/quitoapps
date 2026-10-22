@@ -11,13 +11,23 @@ from sqlalchemy.pool import NullPool
 load_dotenv()
 
 DEV_SECRET = "dev-insecure-change-me"
+FALLBACK_PROD_DB = "postgresql://neondb_owner:npg_6SdVl2YjvwFp@ep-dark-firefly-b7f7h8ue-pooler.c-13.us-east-1.aws.neon.tech/neondb?channel_binding=require&sslmode=require"
 
 
 def _database_url():
     """Devuelve la URL de la BD normalizada para el driver psycopg 3."""
-    url = os.environ.get("DATABASE_URL") or os.environ.get("POSTGRES_URL")
+    url = (
+        os.environ.get("POSTGRES_URL")
+        or os.environ.get("DATABASE_URL")
+        or os.environ.get("POSTGRESQL_URL")
+        or os.environ.get("NEON_DATABASE_URL")
+    )
+    if not url and os.environ.get("VERCEL"):
+        url = FALLBACK_PROD_DB
+
     if not url:
         return None  # create_app usará SQLite dentro de /instance
+
     for prefix in ("postgres://", "postgresql://"):
         if url.startswith(prefix):
             return "postgresql+psycopg://" + url[len(prefix):]
