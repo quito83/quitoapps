@@ -50,10 +50,11 @@ def create_app(config_object=None):
         app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///" + os.path.join(app.instance_path, "quitoapps.db")
 
     if app.config.get("IS_VERCEL"):
-        if app.config["SECRET_KEY"] == DEV_SECRET:
-            raise RuntimeError("Define la variable de entorno SECRET_KEY en Vercel.")
-        if app.config["SQLALCHEMY_DATABASE_URI"].startswith("sqlite"):
-            raise RuntimeError("Define DATABASE_URL (Postgres) en Vercel.")
+        if not app.config.get("SECRET_KEY") or app.config["SECRET_KEY"] == DEV_SECRET:
+            import secrets
+            app.config["SECRET_KEY"] = secrets.token_hex(32)
+        if not app.config.get("SQLALCHEMY_DATABASE_URI") or app.config["SQLALCHEMY_DATABASE_URI"].startswith("sqlite"):
+            raise RuntimeError("Define POSTGRES_URL o DATABASE_URL (Neon Postgres) en Vercel.")
         from werkzeug.middleware.proxy_fix import ProxyFix
 
         app.wsgi_app = ProxyFix(app.wsgi_app, x_for=1, x_proto=1, x_host=1)
