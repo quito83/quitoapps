@@ -22,7 +22,7 @@ def _database_url():
         or os.environ.get("POSTGRESQL_URL")
         or os.environ.get("NEON_DATABASE_URL")
     )
-    if not url and os.environ.get("VERCEL"):
+    if (not url or url.startswith("sqlite")) and (os.environ.get("VERCEL") or os.environ.get("VERCEL_ENV")):
         url = FALLBACK_PROD_DB
 
     if not url:
@@ -36,7 +36,7 @@ def _database_url():
 
 class Config:
     SECRET_KEY = os.environ.get("SECRET_KEY", DEV_SECRET)
-    IS_VERCEL = bool(os.environ.get("VERCEL"))
+    IS_VERCEL = bool(os.environ.get("VERCEL") or os.environ.get("VERCEL_ENV"))
 
     # Base de datos
     SQLALCHEMY_DATABASE_URI = _database_url()

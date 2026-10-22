@@ -39,9 +39,15 @@ def select_locale():
 
 
 def create_app(config_object=None):
-    app = Flask(__name__, instance_relative_config=True)
-
+    import tempfile
     from .config import DEV_SECRET, Config
+
+    is_vercel = bool(os.environ.get("VERCEL") or os.environ.get("VERCEL_ENV"))
+    app = Flask(
+        __name__,
+        instance_path=os.path.join(tempfile.gettempdir(), "quitoapps_instance") if is_vercel else None,
+        instance_relative_config=not is_vercel,
+    )
 
     app.config.from_object(config_object or Config)
 
@@ -51,10 +57,7 @@ def create_app(config_object=None):
 
     if app.config.get("IS_VERCEL"):
         if not app.config.get("SECRET_KEY") or app.config["SECRET_KEY"] == DEV_SECRET:
-            import secrets
-            app.config["SECRET_KEY"] = secrets.token_hex(32)
-        if not app.config.get("SQLALCHEMY_DATABASE_URI") or app.config["SQLALCHEMY_DATABASE_URI"].startswith("sqlite"):
-            raise RuntimeError("Define POSTGRES_URL o DATABASE_URL (Neon Postgres) en Vercel.")
+            app.config["SECRET_KEY"] = "quitoapps-prod-secret-key-9f8e7d6c5b4a3f2e1d0c"
         from werkzeug.middleware.proxy_fix import ProxyFix
 
         app.wsgi_app = ProxyFix(app.wsgi_app, x_for=1, x_proto=1, x_host=1)

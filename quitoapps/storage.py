@@ -83,11 +83,13 @@ class BlobStorage:
 
 
 def init_storage(app):
+    import tempfile
     backend = app.config.get("STORAGE_BACKEND", "local")
     if backend == "blob":
         storage = BlobStorage()
     else:
-        folder = app.config.get("UPLOAD_FOLDER") or os.path.join(app.instance_path, "uploads")
+        default_dir = os.path.join(tempfile.gettempdir(), "quitoapps_uploads") if app.config.get("IS_VERCEL") else os.path.join(app.instance_path, "uploads")
+        folder = app.config.get("UPLOAD_FOLDER") or default_dir
         storage = LocalStorage(folder)
 
         @app.route("/media/<path:filename>")
