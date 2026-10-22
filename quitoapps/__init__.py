@@ -52,12 +52,14 @@ def create_app(config_object=None):
     app.config.from_object(config_object or Config)
 
     if not app.config.get("SQLALCHEMY_DATABASE_URI"):
+        if app.config.get("IS_VERCEL"):
+            raise RuntimeError("Falta POSTGRES_URL / DATABASE_URL en las variables de entorno de Vercel.")
         os.makedirs(app.instance_path, exist_ok=True)
         app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///" + os.path.join(app.instance_path, "quitoapps.db")
 
     if app.config.get("IS_VERCEL"):
         if not app.config.get("SECRET_KEY") or app.config["SECRET_KEY"] == DEV_SECRET:
-            app.config["SECRET_KEY"] = "quitoapps-prod-secret-key-9f8e7d6c5b4a3f2e1d0c"
+            raise RuntimeError("Falta SECRET_KEY en las variables de entorno de Vercel.")
         from werkzeug.middleware.proxy_fix import ProxyFix
 
         app.wsgi_app = ProxyFix(app.wsgi_app, x_for=1, x_proto=1, x_host=1)
@@ -76,8 +78,8 @@ def create_app(config_object=None):
     from .cli import register_cli
     from .filters import register_filters
     from .i18n import register_i18n
-    from .public.routes import bp as public_bp
-    from .public.seo import bp as seo_bp
+    from .site.routes import bp as public_bp
+    from .site.seo import bp as seo_bp
     from .storage import init_storage
 
     init_storage(app)

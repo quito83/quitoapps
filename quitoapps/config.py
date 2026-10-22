@@ -11,7 +11,6 @@ from sqlalchemy.pool import NullPool
 load_dotenv()
 
 DEV_SECRET = "dev-insecure-change-me"
-FALLBACK_PROD_DB = "postgresql://neondb_owner:npg_6SdVl2YjvwFp@ep-dark-firefly-b7f7h8ue-pooler.c-13.us-east-1.aws.neon.tech/neondb?channel_binding=require&sslmode=require"
 
 
 def _database_url():
@@ -22,9 +21,6 @@ def _database_url():
         or os.environ.get("POSTGRESQL_URL")
         or os.environ.get("NEON_DATABASE_URL")
     )
-    if (not url or url.startswith("sqlite")) and (os.environ.get("VERCEL") or os.environ.get("VERCEL_ENV")):
-        url = FALLBACK_PROD_DB
-
     if not url:
         return None  # create_app usará SQLite dentro de /instance
 
