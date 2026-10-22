@@ -1,0 +1,335 @@
+# Spanish translations for PROJECT.
+# Copyright (C) 2026 ORGANIZATION
+# This file is distributed under the same license as the PROJECT project.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2026.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+"POT-Creation-Date: 2026-10-21 14:56-0300\n"
+"PO-Revision-Date: 2026-10-21 14:57-0300\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: es\n"
+"Language-Team: es <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.18.0\n"
+
+#: quitoapps/models.py:18
+msgid "In development"
+msgstr "En desarrollo"
+
+#: quitoapps/models.py:19
+msgid "Beta"
+msgstr "Beta"
+
+#: quitoapps/models.py:20
+msgid "Published"
+msgstr "Publicada"
+
+#: quitoapps/models.py:25
+msgid "Live demo"
+msgstr "Demo en vivo"
+
+#: quitoapps/models.py:26
+msgid "Website"
+msgstr "Sitio web"
+
+#: quitoapps/models.py:27
+msgid "Download"
+msgstr "Descarga"
+
+#: quitoapps/models.py:28
+msgid "Source code"
+msgstr "Código fuente"
+
+#: quitoapps/public/forms.py:8
+msgid "Name"
+msgstr "Nombre"
+
+#: quitoapps/public/forms.py:9
+msgid "Email"
+msgstr "Correo electrónico"
+
+#: quitoapps/public/forms.py:10
+msgid "Message"
+msgstr "Mensaje"
+
+#: quitoapps/public/routes.py:89 quitoapps/public/routes.py:107
+msgid "Thanks! Your message has been sent."
+msgstr "¡Gracias! Tu mensaje ha sido enviado."
+
+#: quitoapps/public/routes.py:94
+msgid "Too many messages. Please try again in a few minutes."
+msgstr "Demasiados mensajes. Por favor intenta de nuevo en unos minutos."
+
+#: quitoapps/templates/base.html:6 quitoapps/templates/base.html:84
+msgid "Apps crafted in Quito"
+msgstr "Aplicaciones creadas en Quito"
+
+#: quitoapps/templates/base.html:7
+msgid "Discover the apps I build: tools, experiments and projects made in Quito."
+msgstr "Descubre las aplicaciones que creo: herramientas, experimentos y proyectos hechos en Quito."
+
+#: quitoapps/templates/base.html:37
+msgid "Skip to content"
+msgstr "Saltar al contenido"
+
+#: quitoapps/templates/base.html:44
+msgid "Menu"
+msgstr "Menú"
+
+#: quitoapps/templates/base.html:47
+msgid "Main"
+msgstr "Principal"
+
+#: quitoapps/templates/base.html:48
+msgid "Home"
+msgstr "Inicio"
+
+#: quitoapps/templates/base.html:49 quitoapps/templates/base.html:87
+#: quitoapps/templates/public/catalog.html:4
+#: quitoapps/templates/public/detail.html:28
+msgid "Apps"
+msgstr "Apps"
+
+#: quitoapps/templates/base.html:50 quitoapps/templates/base.html:88
+#: quitoapps/templates/public/about.html:3
+msgid "About"
+msgstr "Acerca de"
+
+#: quitoapps/templates/base.html:51 quitoapps/templates/base.html:89
+#: quitoapps/templates/public/contact.html:4
+#: quitoapps/templates/public/contact.html:10
+msgid "Contact"
+msgstr "Contacto"
+
+#: quitoapps/templates/base.html:53
+msgid "Language"
+msgstr "Idioma"
+
+#: quitoapps/templates/base.html:58
+msgid "Toggle dark mode"
+msgstr "Modo claro/oscuro"
+
+#: quitoapps/templates/base.html:86
+msgid "Footer"
+msgstr "Pie de página"
+
+#: quitoapps/templates/errors/404.html:2 quitoapps/templates/errors/404.html:7
+msgid "Page not found"
+msgstr "Página no encontrada"
+
+#: quitoapps/templates/errors/404.html:8
+msgid "The page you are looking for doesn't exist or has been moved."
+msgstr "La página que buscas no existe o ha sido movida."
+
+#: quitoapps/templates/errors/404.html:9 quitoapps/templates/errors/500.html:9
+msgid "Back to home"
+msgstr "Volver al inicio"
+
+#: quitoapps/templates/errors/413.html:2 quitoapps/templates/errors/413.html:7
+msgid "File too large"
+msgstr "Archivo demasiado grande"
+
+#: quitoapps/templates/errors/413.html:8
+msgid ""
+"The upload exceeds the 4 MB limit. Try smaller images or upload them in "
+"several steps."
+msgstr ""
+"La subida supera el límite de 4 MB. Prueba con imágenes más pequeñas o súbelas "
+"en varios pasos."
+
+#: quitoapps/templates/errors/413.html:9
+msgid "Go back"
+msgstr "Volver"
+
+#: quitoapps/templates/errors/500.html:2 quitoapps/templates/errors/500.html:7
+msgid "Something went wrong"
+msgstr "Algo salió mal"
+
+#: quitoapps/templates/errors/500.html:8
+msgid "An unexpected error occurred. Please try again later."
+msgstr "Ocurrió un error inesperado. Por favor intenta de nuevo más tarde."
+
+#: quitoapps/templates/public/about.html:8
+msgid "About QuitoApps"
+msgstr "Acerca de QuitoApps"
+
+#: quitoapps/templates/public/about.html:16
+msgid "Content coming soon."
+msgstr "Contenido disponible próximamente."
+
+#: quitoapps/templates/public/catalog.html:5
+msgid "Browse all QuitoApps applications. Filter by category, tag or status."
+msgstr "Explora todas las aplicaciones de QuitoApps. Filtra por categoría, etiqueta o estado."
+
+#: quitoapps/templates/public/catalog.html:10
+msgid "All apps"
+msgstr "Todas las apps"
+
+#: quitoapps/templates/public/catalog.html:11
+msgid "Search and filter the catalog."
+msgstr "Busca y filtra en el catálogo."
+
+#: quitoapps/templates/public/catalog.html:18
+msgid "Search"
+msgstr "Buscar"
+
+#: quitoapps/templates/public/catalog.html:19
+msgid "Search apps…"
+msgstr "Buscar apps…"
+
+#: quitoapps/templates/public/catalog.html:21
+msgid "Category"
+msgstr "Categoría"
+
+#: quitoapps/templates/public/catalog.html:23
+msgid "All categories"
+msgstr "Todas las categorías"
+
+#: quitoapps/templates/public/catalog.html:29
+msgid "Tag"
+msgstr "Etiqueta"
+
+#: quitoapps/templates/public/catalog.html:31
+msgid "All tags"
+msgstr "Todas las etiquetas"
+
+#: quitoapps/templates/public/catalog.html:37
+msgid "Status"
+msgstr "Estado"
+
+#: quitoapps/templates/public/catalog.html:39
+msgid "Any status"
+msgstr "Cualquier estado"
+
+#: quitoapps/templates/public/catalog.html:45
+msgid "Filter"
+msgstr "Filtrar"
+
+#: quitoapps/templates/public/catalog.html:47
+msgid "Clear"
+msgstr "Limpiar"
+
+#: quitoapps/templates/public/catalog.html:52
+#, python-format
+msgid "%(num)d app found"
+msgid_plural "%(num)d apps found"
+msgstr[0] "%(num)d app encontrada"
+msgstr[1] "%(num)d apps encontradas"
+
+#: quitoapps/templates/public/catalog.html:61
+msgid "No apps match your search."
+msgstr "No hay apps que coincidan con tu búsqueda."
+
+#: quitoapps/templates/public/catalog.html:62
+msgid "See all apps"
+msgstr "Ver todas las apps"
+
+#: quitoapps/templates/public/contact.html:5
+msgid "Send a message to QuitoApps: ideas, feedback or questions."
+msgstr "Envía un mensaje a QuitoApps: ideas, sugerencias o consultas."
+
+#: quitoapps/templates/public/contact.html:11
+msgid ""
+"Ideas, feedback, bugs or just saying hi — write to me and I'll get back "
+"to you."
+msgstr ""
+"Ideas, comentarios, dudas o un saludo: escríbeme y te responderé."
+
+#: quitoapps/templates/public/contact.html:25
+msgid "Send message"
+msgstr "Enviar mensaje"
+
+#: quitoapps/templates/public/detail.html:27
+msgid "Breadcrumb"
+msgstr "Ruta de navegación"
+
+#: quitoapps/templates/public/detail.html:62
+#: quitoapps/templates/public/detail.html:94
+msgid "Screenshots"
+msgstr "Capturas de pantalla"
+
+#: quitoapps/templates/public/detail.html:67
+#, python-format
+msgid "Screenshot %(n)d of %(name)s"
+msgstr "Captura %(n)d de %(name)s"
+
+#: quitoapps/templates/public/detail.html:86
+msgid "Related apps"
+msgstr "Apps relacionadas"
+
+#: quitoapps/templates/public/detail.html:95
+msgid "Close"
+msgstr "Cerrar"
+
+#: quitoapps/templates/public/detail.html:96
+msgid "Previous"
+msgstr "Anterior"
+
+#: quitoapps/templates/public/detail.html:98
+msgid "Next"
+msgstr "Siguiente"
+
+#: quitoapps/templates/public/index.html:9
+msgid "Made in Quito, Ecuador"
+msgstr "Hecho en Quito, Ecuador"
+
+#: quitoapps/templates/public/index.html:10
+msgid "Apps crafted with care, built to be useful."
+msgstr "Apps creadas con esmero, hechas para ser útiles."
+
+#: quitoapps/templates/public/index.html:11
+msgid ""
+"This is where I showcase the apps I create: tools, experiments and side "
+"projects. Explore them, try them out and tell me what you think."
+msgstr ""
+"Aquí presento las aplicaciones que voy creando: herramientas, experimentos y "
+"proyectos personales. Explóralas, pruébalas y cuéntame qué te parecen."
+
+#: quitoapps/templates/public/index.html:13
+msgid "Explore apps"
+msgstr "Explorar apps"
+
+#: quitoapps/templates/public/index.html:14
+msgid "About me"
+msgstr "Sobre mí"
+
+#: quitoapps/templates/public/index.html:17
+msgid "app published"
+msgid_plural "apps published"
+msgstr[0] "app publicada"
+msgstr[1] "apps publicadas"
+
+#: quitoapps/templates/public/index.html:53
+msgid "Featured apps"
+msgstr "Apps destacadas"
+
+#: quitoapps/templates/public/index.html:54
+msgid "See all"
+msgstr "Ver todas"
+
+#: quitoapps/templates/public/index.html:67
+msgid "Latest apps"
+msgstr "Últimas apps"
+
+#: quitoapps/templates/public/index.html:78
+msgid "The first apps are on their way. Come back soon!"
+msgstr "Las primeras apps están en camino. ¡Vuelve pronto!"
+
+#: quitoapps/templates/public/index.html:85
+msgid "Have an idea or feedback?"
+msgstr "¿Tienes una idea o sugerencia?"
+
+#: quitoapps/templates/public/index.html:86
+msgid "I'd love to hear from you."
+msgstr "Me encantaría saber de ti."
+
+#: quitoapps/templates/public/index.html:87
+msgid "Get in touch"
+msgstr "Contáctame"
+

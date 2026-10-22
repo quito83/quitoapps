@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% set nav_active = "about" %}
+{% set page_title = _("About") %}
+
+{% block content %}
+<section class="page-head">
+  <div class="container">
+    <h1>{{ _("About QuitoApps") }}</h1>
+  </div>
+</section>
+<section class="section pt-0">
+  <div class="container prose">
+    {% if page and page.body(current_lang) %}
+      {{ page.body(current_lang) | markdown }}
+    {% else %}
+      <p>{{ _("Content coming soon.") }}</p>
+    {% endif %}
+  </div>
+</section>
+{% endblock %}

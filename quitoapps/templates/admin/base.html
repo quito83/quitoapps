@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex, nofollow">
+  <title>{% block title %}Admin{% endblock %} · QuitoApps</title>
+  <link rel="icon" href="{{ url_for('static', filename='img/favicon.svg') }}" type="image/svg+xml">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/site.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/admin.css') }}">
+  <script>
+    (function () { try { var t = localStorage.getItem("theme"); if (t) document.documentElement.dataset.theme = t; } catch (e) {} })();
+  </script>
+</head>
+<body class="admin">
+  {% if current_user.is_authenticated %}
+  <div class="admin-layout">
+    <aside class="admin-side">
+      <a class="brand" href="{{ url_for('admin.dashboard') }}">{% include "partials/logo.svg" %}</a>
+      <nav class="admin-nav">
+        {% set ep = request.endpoint or "" %}
+        <a href="{{ url_for('admin.dashboard') }}" {% if ep == 'admin.dashboard' %}aria-current="page"{% endif %}>Panel</a>
+        <a href="{{ url_for('admin.apps') }}" {% if ep.startswith('admin.app') %}aria-current="page"{% endif %}>Apps</a>
+        <a href="{{ url_for('admin.taxonomy', kind='categories') }}" {% if request.view_args and request.view_args.get('kind') == 'categories' %}aria-current="page"{% endif %}>Categorías</a>
+        <a href="{{ url_for('admin.taxonomy', kind='tags') }}" {% if request.view_args and request.view_args.get('kind') == 'tags' %}aria-current="page"{% endif %}>Etiquetas</a>
+        <a href="{{ url_for('admin.page_about') }}" {% if ep == 'admin.page_about' %}aria-current="page"{% endif %}>Acerca de</a>
+        <a href="{{ url_for('admin.messages') }}" {% if ep.startswith('admin.message') %}aria-current="page"{% endif %}>
+          Mensajes {% if unread_count %}<span class="count">{{ unread_count }}</span>{% endif %}
+        </a>
+      </nav>
+      <div class="admin-side-foot">
+        <a href="{{ url_for('public.index', lang_code='es') }}" target="_blank" rel="noopener">Ver sitio ↗</a>
+        <button class="icon-btn theme-toggle" type="button" aria-label="Cambiar tema" title="Cambiar tema">◐</button>
+        <form method="post" action="{{ url_for('admin.logout') }}">
+          {{ empty_form.hidden_tag() }}
+          <button class="btn btn-ghost btn-sm" type="submit">Salir ({{ current_user.username }})</button>
+        </form>
+      </div>
+    </aside>
+    <main class="admin-main">
+      {% include "admin/_flashes.html" %}
+      {% block content %}{% endblock %}
+    </main>
+  </div>
+  {% else %}
+  <main class="admin-auth">
+    {% include "admin/_flashes.html" %}
+    {% block auth %}{% endblock %}
+  </main>
+  {% endif %}
+  <script src="{{ url_for('static', filename='js/site.js') }}" defer></script>
+  <script src="{{ url_for('static', filename='js/admin.js') }}" defer></script>
+</body>
+</html>

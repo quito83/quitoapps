@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="{{ current_lang }}">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  {%- set _title = (page_title ~ " · " ~ site_name) if page_title is defined and page_title else site_name ~ " — " ~ _("Apps crafted in Quito") %}
+  {%- set _desc = meta_description if meta_description is defined and meta_description else _("Discover the apps I build: tools, experiments and projects made in Quito.") %}
+  {%- set _image = og_image if og_image is defined and og_image else url_for('static', filename='img/og-default.png') %}
+  <title>{{ _title }}</title>
+  <meta name="description" content="{{ _desc }}">
+  <link rel="canonical" href="{{ absolute_url(lang_switch_url(current_lang)) }}">
+  {%- for l in languages %}
+  <link rel="alternate" hreflang="{{ l }}" href="{{ absolute_url(lang_switch_url(l)) }}">
+  {%- endfor %}
+  <link rel="alternate" hreflang="x-default" href="{{ absolute_url(lang_switch_url('es')) }}">
+  <link rel="alternate" type="application/rss+xml" title="{{ site_name }} RSS" href="{{ url_for('seo.feed') }}">
+
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="{{ site_name }}">
+  <meta property="og:title" content="{{ _title }}">
+  <meta property="og:description" content="{{ _desc }}">
+  <meta property="og:url" content="{{ absolute_url(lang_switch_url(current_lang)) }}">
+  <meta property="og:image" content="{{ absolute_url(_image) }}">
+  <meta property="og:locale" content="{{ 'es_EC' if current_lang == 'es' else 'en_US' }}">
+  <meta name="twitter:card" content="summary_large_image">
+
+  <link rel="icon" href="{{ url_for('static', filename='img/favicon.svg') }}" type="image/svg+xml">
+  <link rel="preload" href="{{ url_for('static', filename='fonts/inter-latin-var.woff2') }}" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/site.css') }}">
+  <meta name="theme-color" content="#0b2a5b">
+  <script>
+    (function () { try { var t = localStorage.getItem("theme"); if (t) document.documentElement.dataset.theme = t; } catch (e) {} })();
+  </script>
+  {% block head %}{% endblock %}
+</head>
+<body>
+  <a class="skip-link" href="#main">{{ _("Skip to content") }}</a>
+  {%- set nav = nav_active if nav_active is defined else "" %}
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="brand" href="{{ url_for('public.index') }}" aria-label="{{ site_name }}">
+        {% include "partials/logo.svg" %}
+      </a>
+      <button class="icon-btn nav-toggle" type="button" aria-controls="site-nav" aria-expanded="false" aria-label="{{ _('Menu') }}">
+        <svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+      </button>
+      <nav id="site-nav" class="site-nav" aria-label="{{ _('Main') }}">
+        <a href="{{ url_for('public.index') }}" {% if nav == 'home' %}aria-current="page"{% endif %}>{{ _("Home") }}</a>
+        <a href="{{ url_for('public.catalog') }}" {% if nav == 'apps' %}aria-current="page"{% endif %}>{{ _("Apps") }}</a>
+        <a href="{{ url_for('public.about') }}" {% if nav == 'about' %}aria-current="page"{% endif %}>{{ _("About") }}</a>
+        <a href="{{ url_for('public.contact') }}" {% if nav == 'contact' %}aria-current="page"{% endif %}>{{ _("Contact") }}</a>
+        <div class="nav-tools">
+          <div class="lang-switch" role="group" aria-label="{{ _('Language') }}">
+            {%- for l in languages %}
+            <a href="{{ lang_switch_url(l) }}" hreflang="{{ l }}" lang="{{ l }}" title="{{ language_names[l] }}" {% if l == current_lang %}aria-current="true"{% endif %}>{{ l|upper }}</a>
+            {%- endfor %}
+          </div>
+          <button class="icon-btn theme-toggle" type="button" aria-label="{{ _('Toggle dark mode') }}" title="{{ _('Toggle dark mode') }}">
+            <svg class="i-sun" width="20" height="20" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4.5" fill="currentColor"/><g stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></g></svg>
+            <svg class="i-moon" width="20" height="20" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 14.5A8.5 8.5 0 0 1 9.5 4a8.5 8.5 0 1 0 10.5 10.5z" fill="currentColor"/></svg>
+          </button>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main">
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+      <div class="container flashes">
+        {% for category, message in messages %}
+        <div class="flash flash-{{ category }}" role="status">{{ message }}</div>
+        {% endfor %}
+      </div>
+      {% endif %}
+    {% endwith %}
+    {% block content %}{% endblock %}
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <div>
+        <a class="brand brand-sm" href="{{ url_for('public.index') }}">{% include "partials/logo.svg" %}</a>
+        <p class="muted">{{ _("Apps crafted in Quito") }} · © {{ current_year }}</p>
+      </div>
+      <nav class="footer-nav" aria-label="{{ _('Footer') }}">
+        <a href="{{ url_for('public.catalog') }}">{{ _("Apps") }}</a>
+        <a href="{{ url_for('public.about') }}">{{ _("About") }}</a>
+        <a href="{{ url_for('public.contact') }}">{{ _("Contact") }}</a>
+        <a href="{{ url_for('seo.feed') }}">RSS</a>
+      </nav>
+    </div>
+  </footer>
+
+  <script src="{{ url_for('static', filename='js/site.js') }}" defer></script>
+  {% block scripts %}{% endblock %}
+  {% if analytics_enabled %}
+  <script>window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };</script>
+  <script defer src="/_vercel/insights/script.js"></script>
+  {% endif %}
+</body>
+</html>

@@ -1,0 +1,36 @@
+{% macro app_card(a) -%}
+{%- set t = a.tr(current_lang) -%}
+<article class="card app-card">
+  <a class="card-link" href="{{ url_for('public.detail', slug=a.slug) }}">
+    <div class="card-head">
+      {% if a.icon_url %}
+      <img class="app-icon" src="{{ a.icon_url }}" alt="" width="64" height="64" loading="lazy">
+      {% else %}
+      <div class="app-icon app-icon-fallback" aria-hidden="true">{{ t.name[:1] }}</div>
+      {% endif %}
+      <div class="card-titles">
+        <h3>{{ t.name }}</h3>
+        {% if a.category %}<span class="muted small">{{ a.category.name(current_lang) }}</span>{% endif %}
+      </div>
+    </div>
+    <p class="card-desc">{{ t.short_desc }}</p>
+    <div class="card-foot">
+      {{ status_badge(a) }}
+      {% for tag in a.tags[:3] %}<span class="chip">{{ tag.name(current_lang) }}</span>{% endfor %}
+    </div>
+  </a>
+</article>
+{%- endmacro %}
+
+{% macro status_badge(a) -%}
+<span class="badge badge-{{ a.status }}">{{ a.status_label }}</span>
+{%- endmacro %}
+
+{% macro field(f, hint=None) -%}
+<div class="field{% if f.errors %} has-error{% endif %}">
+  {{ f.label }}
+  {{ f(**kwargs) }}
+  {% if hint %}<small class="hint">{{ hint }}</small>{% endif %}
+  {% for e in f.errors %}<small class="error">{{ e }}</small>{% endfor %}
+</div>
+{%- endmacro %}

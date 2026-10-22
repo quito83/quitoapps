@@ -1,0 +1,39 @@
+{% extends "admin/base.html" %}
+{% block title %}Apps{% endblock %}
+{% block content %}
+<div class="admin-head">
+  <h1>Apps</h1>
+  <a class="btn btn-primary" href="{{ url_for('admin.app_new') }}">+ Nueva app</a>
+</div>
+{% if items %}
+<table class="table">
+  <thead>
+    <tr><th></th><th>Nombre</th><th>Estado</th><th>Categoría</th><th>Orden</th><th>Visible</th><th>Destacada</th><th></th></tr>
+  </thead>
+  <tbody>
+    {% for a in items %}
+    {% set t = a.tr('es') %}
+    <tr>
+      <td>{% if a.icon_url %}<img class="thumb" src="{{ a.icon_url }}" alt="">{% endif %}</td>
+      <td><a href="{{ url_for('admin.app_edit', app_id=a.id) }}"><strong>{{ t.name }}</strong></a><br><small class="muted">/{{ a.slug }}</small></td>
+      <td><span class="badge badge-{{ a.status }}">{{ {'dev': 'En desarrollo', 'beta': 'Beta', 'published': 'Publicada'}[a.status] }}</span></td>
+      <td>{{ a.category.name_es if a.category else '—' }}</td>
+      <td>{{ a.sort_order }}</td>
+      <td>{{ '✔' if a.visible else '—' }}</td>
+      <td>{{ '★' if a.featured else '—' }}</td>
+      <td class="row-actions">
+        <a class="btn btn-ghost btn-sm" href="{{ url_for('public.detail', lang_code='es', slug=a.slug) }}" target="_blank" rel="noopener">Ver</a>
+        <a class="btn btn-ghost btn-sm" href="{{ url_for('admin.app_edit', app_id=a.id) }}">Editar</a>
+        <form method="post" action="{{ url_for('admin.app_delete', app_id=a.id) }}" data-confirm="¿Eliminar «{{ t.name }}» y todas sus imágenes?">
+          {{ empty_form.hidden_tag() }}
+          <button class="btn btn-danger btn-sm" type="submit">Eliminar</button>
+        </form>
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% else %}
+<div class="empty card"><p>Aún no hay apps. ¡Crea la primera!</p></div>
+{% endif %}
+{% endblock %}

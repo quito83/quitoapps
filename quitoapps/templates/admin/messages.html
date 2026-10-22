@@ -1,0 +1,28 @@
+{% extends "admin/base.html" %}
+{% block title %}Mensajes{% endblock %}
+{% block content %}
+<div class="admin-head"><h1>Mensajes</h1></div>
+{% if items %}
+<table class="table">
+  <thead><tr><th>De</th><th>Email</th><th>Mensaje</th><th>Idioma</th><th>Fecha (UTC)</th><th></th></tr></thead>
+  <tbody>
+    {% for m in items %}
+    <tr class="{{ 'unread' if not m.read }}">
+      <td><a href="{{ url_for('admin.message_view', msg_id=m.id) }}">{{ m.name }}</a></td>
+      <td>{{ m.email }}</td>
+      <td class="truncate">{{ m.body[:100] }}</td>
+      <td>{{ (m.lang or '')|upper }}</td>
+      <td class="nowrap">{{ m.created_at.strftime('%d/%m/%Y %H:%M') }}</td>
+      <td class="row-actions">
+        <form method="post" action="{{ url_for('admin.message_delete', msg_id=m.id) }}" data-confirm="¿Eliminar este mensaje?">
+          {{ empty_form.hidden_tag() }}<button class="btn btn-danger btn-sm">Eliminar</button>
+        </form>
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% else %}
+<div class="empty card"><p>No hay mensajes.</p></div>
+{% endif %}
+{% endblock %}

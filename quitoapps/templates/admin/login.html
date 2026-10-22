@@ -1,0 +1,14 @@
+{% extends "admin/base.html" %}
+{% from "_macros.html" import field %}
+{% block title %}Iniciar sesión{% endblock %}
+{% block auth %}
+<form class="card form auth-card" method="post" novalidate>
+  <div class="auth-brand">{% include "partials/logo.svg" %}</div>
+  <h1>Administración</h1>
+  {{ form.hidden_tag() }}
+  {{ field(form.username, autocomplete="username", autofocus=True) }}
+  {{ field(form.password, autocomplete="current-password") }}
+  <label class="check">{{ form.remember() }} {{ form.remember.label.text }}</label>
+  <button class="btn btn-primary btn-block" type="submit">Entrar</button>
+</form>
+{% endblock %}

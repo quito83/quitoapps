@@ -1,0 +1,18 @@
+{% extends "admin/base.html" %}
+{% from "_macros.html" import field %}
+{% block title %}{{ title }}{% endblock %}
+{% block content %}
+<div class="admin-head">
+  <h1>{{ title }}</h1>
+  <a class="btn btn-ghost" href="{{ url_for('public.about', lang_code='es') }}" target="_blank" rel="noopener">Ver página ↗</a>
+</div>
+<form class="form card" method="post" novalidate>
+  {{ form.hidden_tag() }}
+  <p class="hint">Admite Markdown: **negrita**, ## títulos, - listas, [enlace](https://…), ![imagen](https://…)</p>
+  <div class="lang-cols">
+    {{ field(form.body_es, rows=18) }}
+    {{ field(form.body_en, rows=18) }}
+  </div>
+  <div class="form-actions"><button class="btn btn-primary" type="submit">Guardar</button></div>
+</form>
+{% endblock %}

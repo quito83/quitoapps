@@ -1,0 +1,26 @@
+{% extends "admin/base.html" %}
+{% block title %}Mensaje de {{ msg.name }}{% endblock %}
+{% block content %}
+<div class="admin-head">
+  <h1>Mensaje de {{ msg.name }}</h1>
+  <a class="btn btn-ghost" href="{{ url_for('admin.messages') }}">← Volver</a>
+</div>
+<article class="card message">
+  <dl class="meta">
+    <dt>Email</dt><dd><a href="mailto:{{ msg.email }}">{{ msg.email }}</a></dd>
+    <dt>Fecha</dt><dd>{{ msg.created_at.strftime('%d/%m/%Y %H:%M') }} UTC</dd>
+    <dt>Idioma</dt><dd>{{ (msg.lang or '—')|upper }}</dd>
+    <dt>IP</dt><dd>{{ msg.ip or '—' }}</dd>
+  </dl>
+  <div class="message-body">{{ msg.body }}</div>
+  <div class="form-actions">
+    <a class="btn btn-primary" href="mailto:{{ msg.email }}?subject=Re: QuitoApps">Responder por email</a>
+    <form method="post" action="{{ url_for('admin.message_unread', msg_id=msg.id) }}">
+      {{ empty_form.hidden_tag() }}<button class="btn btn-ghost">Marcar como no leído</button>
+    </form>
+    <form method="post" action="{{ url_for('admin.message_delete', msg_id=msg.id) }}" data-confirm="¿Eliminar este mensaje?">
+      {{ empty_form.hidden_tag() }}<button class="btn btn-danger">Eliminar</button>
+    </form>
+  </div>
+</article>
+{% endblock %}

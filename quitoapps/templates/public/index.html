@@ -1,0 +1,90 @@
+{% extends "base.html" %}
+{% from "_macros.html" import app_card with context %}
+{% set nav_active = "home" %}
+
+{% block content %}
+<section class="hero">
+  <div class="container hero-inner">
+    <div class="hero-text">
+      <p class="eyebrow">{{ _("Made in Quito, Ecuador") }}</p>
+      <h1>{{ _("Apps crafted with care, built to be useful.") }}</h1>
+      <p class="lead">{{ _("This is where I showcase the apps I create: tools, experiments and side projects. Explore them, try them out and tell me what you think.") }}</p>
+      <div class="actions">
+        <a class="btn btn-primary" href="{{ url_for('public.catalog') }}">{{ _("Explore apps") }}</a>
+        <a class="btn btn-ghost" href="{{ url_for('public.about') }}">{{ _("About me") }}</a>
+      </div>
+      {% if total %}
+      <p class="hero-stat"><strong>{{ total }}</strong> {{ ngettext("app published", "apps published", total) }}</p>
+      {% endif %}
+    </div>
+    <div class="hero-art" aria-hidden="true">
+      <svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" stop-color="var(--hero-sky-1)"/>
+            <stop offset="1" stop-color="var(--hero-sky-2)"/>
+          </linearGradient>
+          <linearGradient id="sun" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0" stop-color="#fde68a"/>
+            <stop offset="1" stop-color="#f59e0b"/>
+          </linearGradient>
+        </defs>
+        <rect width="400" height="300" rx="28" fill="url(#sky)"/>
+        <circle cx="290" cy="90" r="38" fill="url(#sun)"/>
+        <path d="M0 230 L80 130 L130 180 L200 90 L280 200 L330 150 L400 220 V300 H0 Z" fill="var(--hero-mtn-1)"/>
+        <path d="M0 260 L70 200 L140 240 L220 170 L300 245 L360 210 L400 240 V300 H0 Z" fill="var(--hero-mtn-2)"/>
+        <g transform="translate(60 60)">
+          <rect width="64" height="64" rx="16" fill="#ffffff" opacity=".92"/>
+          <rect x="16" y="16" width="32" height="32" rx="8" fill="#ea580c"/>
+        </g>
+        <g transform="translate(150 30)">
+          <rect width="52" height="52" rx="14" fill="#ffffff" opacity=".85"/>
+          <circle cx="26" cy="26" r="12" fill="#0b2a5b"/>
+        </g>
+      </svg>
+    </div>
+  </div>
+</section>
+
+{% if featured %}
+<section class="section">
+  <div class="container">
+    <div class="section-head">
+      <h2>{{ _("Featured apps") }}</h2>
+      <a class="link-more" href="{{ url_for('public.catalog') }}">{{ _("See all") }} →</a>
+    </div>
+    <div class="grid">
+      {% for a in featured %}{{ app_card(a) }}{% endfor %}
+    </div>
+  </div>
+</section>
+{% endif %}
+
+{% if latest %}
+<section class="section section-alt">
+  <div class="container">
+    <div class="section-head">
+      <h2>{{ _("Latest apps") }}</h2>
+      <a class="link-more" href="{{ url_for('seo.feed') }}">RSS</a>
+    </div>
+    <div class="grid">
+      {% for a in latest %}{{ app_card(a) }}{% endfor %}
+    </div>
+  </div>
+</section>
+{% else %}
+<section class="section">
+  <div class="container empty">
+    <p>{{ _("The first apps are on their way. Come back soon!") }}</p>
+  </div>
+</section>
+{% endif %}
+
+<section class="section">
+  <div class="container cta">
+    <h2>{{ _("Have an idea or feedback?") }}</h2>
+    <p class="muted">{{ _("I'd love to hear from you.") }}</p>
+    <a class="btn btn-primary" href="{{ url_for('public.contact') }}">{{ _("Get in touch") }}</a>
+  </div>
+</section>
+{% endblock %}

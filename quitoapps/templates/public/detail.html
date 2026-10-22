@@ -1,0 +1,100 @@
+{% extends "base.html" %}
+{% from "_macros.html" import app_card, status_badge with context %}
+{% set t = app_item.tr(current_lang) %}
+{% set nav_active = "apps" %}
+{% set page_title = t.name %}
+{% set meta_description = t.short_desc %}
+{% set og_image = (app_item.screenshots[0].image_url if app_item.screenshots else app_item.icon_url) %}
+
+{% block head %}
+<script type="application/ld+json">
+{{ {
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": t.name,
+  "description": t.short_desc,
+  "applicationCategory": (app_item.category.name("en") if app_item.category else "Application"),
+  "url": absolute_url(url_for('public.detail', slug=app_item.slug)),
+  "image": (absolute_url(app_item.icon_url) if app_item.icon_url else None),
+  "inLanguage": current_lang
+} | tojson }}
+</script>
+{% endblock %}
+
+{% block content %}
+<section class="page-head detail-head">
+  <div class="container">
+    <nav class="breadcrumb" aria-label="{{ _('Breadcrumb') }}">
+      <a href="{{ url_for('public.catalog') }}">{{ _("Apps") }}</a>
+      {% if app_item.category %}
+      <span aria-hidden="true">/</span>
+      <a href="{{ url_for('public.catalog', category=app_item.category.slug) }}">{{ app_item.category.name(current_lang) }}</a>
+      {% endif %}
+    </nav>
+    <div class="detail-title">
+      {% if app_item.icon_url %}
+      <img class="app-icon app-icon-lg" src="{{ app_item.icon_url }}" alt="{{ t.name }}" width="96" height="96">
+      {% else %}
+      <div class="app-icon app-icon-lg app-icon-fallback" aria-hidden="true">{{ t.name[:1] }}</div>
+      {% endif %}
+      <div>
+        <h1>{{ t.name }}</h1>
+        <p class="lead">{{ t.short_desc }}</p>
+        <div class="meta-row">
+          {{ status_badge(app_item) }}
+          {% for tag in app_item.tags %}
+          <a class="chip" href="{{ url_for('public.catalog', tag=tag.slug) }}">{{ tag.name(current_lang) }}</a>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+    {% if app_item.links %}
+    <div class="actions">
+      {% for link in app_item.links %}
+      <a class="btn {{ 'btn-primary' if loop.first else 'btn-ghost' }}" href="{{ link.url }}" target="_blank" rel="noopener noreferrer">{{ link.label }} ↗</a>
+      {% endfor %}
+    </div>
+    {% endif %}
+  </div>
+</section>
+
+{% if app_item.screenshots %}
+<section class="section pt-0" aria-label="{{ _('Screenshots') }}">
+  <div class="container">
+    <div class="gallery" data-gallery>
+      {% for s in app_item.screenshots %}
+      <a href="{{ s.image_url }}" class="gallery-item" data-index="{{ loop.index0 }}">
+        <img src="{{ s.image_url }}" alt="{{ _('Screenshot %(n)d of %(name)s', n=loop.index, name=t.name) }}" loading="lazy">
+      </a>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endif %}
+
+{% if t.long_desc %}
+<section class="section pt-0">
+  <div class="container prose">
+    {{ t.long_desc | markdown }}
+  </div>
+</section>
+{% endif %}
+
+{% if related %}
+<section class="section section-alt">
+  <div class="container">
+    <h2>{{ _("Related apps") }}</h2>
+    <div class="grid">
+      {% for a in related %}{{ app_card(a) }}{% endfor %}
+    </div>
+  </div>
+</section>
+{% endif %}
+
+<dialog class="lightbox" aria-label="{{ _('Screenshots') }}">
+  <button class="lb-close icon-btn" type="button" aria-label="{{ _('Close') }}">✕</button>
+  <button class="lb-prev icon-btn" type="button" aria-label="{{ _('Previous') }}">‹</button>
+  <img alt="">
+  <button class="lb-next icon-btn" type="button" aria-label="{{ _('Next') }}">›</button>
+</dialog>
+{% endblock %}

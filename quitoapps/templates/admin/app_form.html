@@ -1,0 +1,110 @@
+{% extends "admin/base.html" %}
+{% from "_macros.html" import field %}
+{% block title %}{{ 'Nueva app' if is_new else 'Editar app' }}{% endblock %}
+{% block content %}
+<div class="admin-head">
+  <h1>{{ 'Nueva app' if is_new else 'Editar: ' ~ item.tr('es').name }}</h1>
+  {% if not is_new %}
+  <a class="btn btn-ghost" href="{{ url_for('public.detail', lang_code='es', slug=item.slug) }}" target="_blank" rel="noopener">Ver en el sitio ↗</a>
+  {% endif %}
+</div>
+
+<form class="form app-form" method="post" enctype="multipart/form-data" novalidate data-compress-images>
+  {{ form.hidden_tag() }}
+
+  <section class="card">
+    <h2>General</h2>
+    <div class="form-grid">
+      {{ field(form.slug, hint="Aparece en la URL: /es/apps/<slug>/", placeholder="mi-app") }}
+      {{ field(form.status) }}
+      {{ field(form.category_id) }}
+      {{ field(form.sort_order) }}
+    </div>
+    <div class="checks">
+      <label class="check">{{ form.visible() }} {{ form.visible.label.text }}</label>
+      <label class="check">{{ form.featured() }} {{ form.featured.label.text }}</label>
+    </div>
+    <div class="field">
+      <span class="label">Etiquetas</span>
+      {% if form.tag_ids.choices %}
+      <div class="tag-picker">{{ form.tag_ids() }}</div>
+      {% else %}
+      <small class="hint">No hay etiquetas. <a href="{{ url_for('admin.taxonomy', kind='tags') }}">Crear etiquetas</a></small>
+      {% endif %}
+    </div>
+  </section>
+
+  <section class="card">
+    <h2>Textos</h2>
+    <div class="lang-cols">
+      <fieldset>
+        <legend>🇪🇸 Español</legend>
+        {{ field(form.name_es) }}
+        {{ field(form.short_es, hint="Máx. 300 caracteres. Se muestra en la tarjeta.") }}
+        {{ field(form.long_es, rows=12, hint="Admite Markdown: **negrita**, ## títulos, - listas, [enlace](https://…)") }}
+      </fieldset>
+      <fieldset>
+        <legend>🇬🇧 English</legend>
+        {{ field(form.name_en) }}
+        {{ field(form.short_en, hint="Max. 300 characters. Shown on the card.") }}
+        {{ field(form.long_en, rows=12, hint="Markdown supported.") }}
+      </fieldset>
+    </div>
+  </section>
+
+  <section class="card">
+    <h2>Enlaces</h2>
+    <p class="hint">Deja vacíos los que no apliquen. El primero que tenga valor se muestra como botón principal.</p>
+    <div class="form-grid">
+      {% for f, label in link_fields %}
+        {{ field(f, placeholder="https://") }}
+      {% endfor %}
+    </div>
+  </section>
+
+  <section class="card">
+    <h2>Imágenes</h2>
+    <div class="form-grid">
+      <div>
+        {% if item.icon_url %}
+        <img class="icon-preview" src="{{ item.icon_url }}" alt="Icono actual">
+        <label class="check">{{ form.remove_icon() }} {{ form.remove_icon.label.text }}</label>
+        {% endif %}
+        {{ field(form.icon, accept="image/*", hint="Cuadrado, se redimensiona a 512×512 px.") }}
+      </div>
+      <div>
+        {{ field(form.screenshots, accept="image/*", multiple=True, hint="Puedes elegir varias. Se redimensionan a 1600 px y se comprimen antes de subir (límite total 4 MB por guardado).") }}
+      </div>
+    </div>
+  </section>
+
+  <div class="form-actions sticky-actions">
+    <a class="btn btn-ghost" href="{{ url_for('admin.apps') }}">Cancelar</a>
+    <button class="btn btn-primary" type="submit">Guardar</button>
+  </div>
+</form>
+
+{% if not is_new and item.screenshots %}
+<section class="card" id="capturas">
+  <h2>Capturas actuales</h2>
+  <div class="shots">
+    {% for s in item.screenshots %}
+    <figure class="shot">
+      <img src="{{ s.image_url }}" alt="Captura {{ loop.index }}">
+      <figcaption>
+        <form method="post" action="{{ url_for('admin.screenshot_move', shot_id=s.id, direction='up') }}">
+          {{ empty_form.hidden_tag() }}<button class="btn btn-ghost btn-sm" {% if loop.first %}disabled{% endif %} title="Mover antes">←</button>
+        </form>
+        <form method="post" action="{{ url_for('admin.screenshot_move', shot_id=s.id, direction='down') }}">
+          {{ empty_form.hidden_tag() }}<button class="btn btn-ghost btn-sm" {% if loop.last %}disabled{% endif %} title="Mover después">→</button>
+        </form>
+        <form method="post" action="{{ url_for('admin.screenshot_delete', shot_id=s.id) }}" data-confirm="¿Eliminar esta captura?">
+          {{ empty_form.hidden_tag() }}<button class="btn btn-danger btn-sm">Eliminar</button>
+        </form>
+      </figcaption>
+    </figure>
+    {% endfor %}
+  </div>
+</section>
+{% endif %}
+{% endblock %}

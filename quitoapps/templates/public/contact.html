@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% from "_macros.html" import field %}
+{% set nav_active = "contact" %}
+{% set page_title = _("Contact") %}
+{% set meta_description = _("Send a message to QuitoApps: ideas, feedback or questions.") %}
+
+{% block content %}
+<section class="page-head">
+  <div class="container narrow">
+    <h1>{{ _("Contact") }}</h1>
+    <p class="lead muted">{{ _("Ideas, feedback, bugs or just saying hi — write to me and I'll get back to you.") }}</p>
+  </div>
+</section>
+<section class="section pt-0">
+  <div class="container narrow">
+    <form class="card form" method="post" novalidate>
+      {{ form.hidden_tag() }}
+      {{ field(form.name, autocomplete="name", required=True) }}
+      {{ field(form.email, autocomplete="email", required=True) }}
+      {{ field(form.message, rows=6, required=True) }}
+      <div class="hp" aria-hidden="true">
+        <label for="website">Website</label>
+        {{ form.website(id="website", tabindex="-1", autocomplete="off") }}
+      </div>
+      <button class="btn btn-primary" type="submit">{{ _("Send message") }}</button>
+    </form>
+  </div>
+</section>
+{% endblock %}

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>{{ site_name }}</title>
+    <link>{{ absolute_url(url_for('public.index')) }}</link>
+    <atom:link href="{{ absolute_url(url_for('seo.feed')) }}" rel="self" type="application/rss+xml"/>
+    <description>{{ _("Discover the apps I build: tools, experiments and projects made in Quito.") }}</description>
+    <language>{{ current_lang }}</language>
+    {%- for item in items %}
+    <item>
+      <title>{{ item.title }}</title>
+      <link>{{ item.link }}</link>
+      <guid isPermaLink="true">{{ item.link }}</guid>
+      <description>{{ item.description }}</description>
+      <pubDate>{{ item.pub_date }}</pubDate>
+    </item>
+    {%- endfor %}
+  </channel>
+</rss>

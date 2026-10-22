@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% set page_title = _("File too large") %}
+{% block content %}
+<section class="section">
+  <div class="container empty error-page">
+    <p class="error-code">413</p>
+    <h1>{{ _("File too large") }}</h1>
+    <p class="muted">{{ _("The upload exceeds the 4 MB limit. Try smaller images or upload them in several steps.") }}</p>
+    <a class="btn btn-primary" href="javascript:history.back()">{{ _("Go back") }}</a>
+  </div>
+</section>
+{% endblock %}

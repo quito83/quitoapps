@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+{% from "_macros.html" import app_card with context %}
+{% set nav_active = "apps" %}
+{% set page_title = _("Apps") %}
+{% set meta_description = _("Browse all QuitoApps applications. Filter by category, tag or status.") %}
+
+{% block content %}
+<section class="page-head">
+  <div class="container">
+    <h1>{{ _("All apps") }}</h1>
+    <p class="lead muted">{{ _("Search and filter the catalog.") }}</p>
+  </div>
+</section>
+
+<section class="section pt-0">
+  <div class="container">
+    <form class="filters" method="get" action="{{ url_for('public.catalog') }}" role="search" data-autosubmit>
+      <label class="sr-only" for="q">{{ _("Search") }}</label>
+      <input id="q" type="search" name="q" value="{{ filters.q }}" placeholder="{{ _('Search apps…') }}" autocomplete="off">
+
+      <label class="sr-only" for="f-category">{{ _("Category") }}</label>
+      <select id="f-category" name="category">
+        <option value="">{{ _("All categories") }}</option>
+        {% for c in categories %}
+        <option value="{{ c.slug }}" {% if filters.category == c.slug %}selected{% endif %}>{{ c.name(current_lang) }}</option>
+        {% endfor %}
+      </select>
+
+      <label class="sr-only" for="f-tag">{{ _("Tag") }}</label>
+      <select id="f-tag" name="tag">
+        <option value="">{{ _("All tags") }}</option>
+        {% for t in tags %}
+        <option value="{{ t.slug }}" {% if filters.tag == t.slug %}selected{% endif %}>{{ t.name(current_lang) }}</option>
+        {% endfor %}
+      </select>
+
+      <label class="sr-only" for="f-status">{{ _("Status") }}</label>
+      <select id="f-status" name="status">
+        <option value="">{{ _("Any status") }}</option>
+        {% for key, label in statuses.items() %}
+        <option value="{{ key }}" {% if filters.status == key %}selected{% endif %}>{{ label }}</option>
+        {% endfor %}
+      </select>
+
+      <button class="btn btn-primary" type="submit">{{ _("Filter") }}</button>
+      {% if filters.q or filters.category or filters.tag or filters.status %}
+      <a class="btn btn-ghost" href="{{ url_for('public.catalog') }}">{{ _("Clear") }}</a>
+      {% endif %}
+    </form>
+
+    <p class="results-count muted" aria-live="polite">
+      {{ ngettext("%(num)d app found", "%(num)d apps found", apps|length) }}
+    </p>
+
+    {% if apps %}
+    <div class="grid">
+      {% for a in apps %}{{ app_card(a) }}{% endfor %}
+    </div>
+    {% else %}
+    <div class="empty">
+      <p>{{ _("No apps match your search.") }}</p>
+      <a class="btn btn-ghost" href="{{ url_for('public.catalog') }}">{{ _("See all apps") }}</a>
+    </div>
+    {% endif %}
+  </div>
+</section>
+{% endblock %}
