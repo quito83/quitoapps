@@ -19,7 +19,7 @@ def index():
     featured = visible_apps().filter(App.featured.is_(True)).order_by(App.sort_order, App.created_at.desc()).all()
     latest = visible_apps().order_by(App.created_at.desc()).limit(6).all()
     total = visible_apps().count()
-    return render_template("public/index.html", featured=featured, latest=latest, total=total)
+    return render_template("site/index.html", featured=featured, latest=latest, total=total)
 
 
 @bp.route("/apps/")
@@ -49,7 +49,7 @@ def catalog():
     categories = Category.query.order_by(Category.sort_order, Category.slug).all()
     tags = Tag.query.order_by(Tag.slug).all()
     return render_template(
-        "public/catalog.html",
+        "site/catalog.html",
         apps=apps,
         categories=categories,
         tags=tags,
@@ -72,13 +72,13 @@ def detail(slug):
             .limit(3)
             .all()
         )
-    return render_template("public/detail.html", app_item=app_, related=related)
+    return render_template("site/detail.html", app_item=app_, related=related)
 
 
 @bp.route("/about/")
 def about():
     page = Page.query.filter_by(key="about").first()
-    return render_template("public/about.html", page=page)
+    return render_template("site/about.html", page=page)
 
 
 @bp.route("/contact/", methods=["GET", "POST"])
@@ -92,7 +92,7 @@ def contact():
         cfg = current_app.config
         if ratelimit.is_limited("contact", ip, cfg["CONTACT_MAX_MESSAGES"], cfg["CONTACT_WINDOW_MINUTES"]):
             flash(_("Too many messages. Please try again in a few minutes."), "error")
-            return render_template("public/contact.html", form=form), 429
+            return render_template("site/contact.html", form=form), 429
         db.session.add(
             Message(
                 name=form.name.data.strip(),
@@ -106,4 +106,4 @@ def contact():
         ratelimit.record("contact", ip)
         flash(_("Thanks! Your message has been sent."), "success")
         return redirect(url_for(".contact"))
-    return render_template("public/contact.html", form=form)
+    return render_template("site/contact.html", form=form)
