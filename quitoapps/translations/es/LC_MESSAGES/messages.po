@@ -333,3 +333,12 @@ msgstr "Me encantaría saber de ti."
 msgid "Get in touch"
 msgstr "Contáctame"
 
+
+msgid "Made with"
+msgstr "Hecho con"
+
+msgid "in Buenos Aires"
+msgstr "en Buenos Aires"
+
+msgid "Apps and resources, crafted with care to be useful."
+msgstr "Apps y recursos, creados con esmero para ser útiles."
