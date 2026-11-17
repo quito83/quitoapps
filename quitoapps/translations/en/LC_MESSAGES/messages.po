@@ -328,3 +328,12 @@ msgstr ""
 msgid "Get in touch"
 msgstr ""
 
+
+msgid "Made with"
+msgstr ""
+
+msgid "in Buenos Aires"
+msgstr ""
+
+msgid "Apps and resources, crafted with care to be useful."
+msgstr ""
